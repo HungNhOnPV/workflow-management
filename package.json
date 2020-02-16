@@ -53,8 +53,7 @@
   "lint-staged": {
     "**/*.{js/css}": [
       "eslint src",
-      "yarn run format",
-      "git add"
+      "yarn run format"
     ]
   }
 }
