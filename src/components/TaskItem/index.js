@@ -31,7 +31,7 @@ class TaskItem extends Component {
         <CardActions className={classes.cardActions}>
           <Fab
             color="primary"
-            aria-Label="Edit"
+            aria-label="Edit"
             className={classes.fab}
             size="small"
           >
@@ -39,7 +39,7 @@ class TaskItem extends Component {
           </Fab>
           <Fab
             color="primary"
-            aria-Label="Delete"
+            aria-label="Delete"
             className={classes.fab}
             size="small"
           >
