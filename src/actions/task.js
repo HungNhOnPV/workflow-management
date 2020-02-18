@@ -1,4 +1,4 @@
-import * as taskApis from '../apis/task';
+// import * as taskApis from '../apis/task';
 import * as taskConstants from '../constants/task';
 
 export const fetchListTask = () => {
@@ -25,13 +25,13 @@ export const fetchListTaskFailed = error => {
   }
 }
 
-export const fetchListTaskRequest = () => {
-  return dispatch => {
-    dispatch(fetchListTask());
-    taskApis.getList().then(resp => {
-      dispatch(fetchListTaskSuccess(resp.data));
-    }).catch(error => {
-      dispatch(fetchListTaskFailed(error));
-    })
-  }
-}
+// export const fetchListTaskRequest = () => {
+//   return dispatch => {
+//     dispatch(fetchListTask());
+//     taskApis.getList().then(resp => {
+//       dispatch(fetchListTaskSuccess(resp.data));
+//     }).catch(error => {
+//       dispatch(fetchListTaskFailed(error));
+//     })
+//   }
+// }
