@@ -5,12 +5,14 @@ import TaskBoard from '../Taskboard/index';
 import styles from './styles';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GlobalLoading from '../../components/GlobalLoading';
 
 class App extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
         <ToastContainer />
+        <GlobalLoading />
         <TaskBoard />
       </ThemeProvider>
     );
