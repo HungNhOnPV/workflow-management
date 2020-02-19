@@ -11,6 +11,7 @@ import TaskItem from '../../components/TaskForm';
 import TaskList from '../../components/TaskList';
 import { STATUSES } from '../../constants/index';
 import styles from './styles';
+import SearchBox from '../../components/SearchBox';
 
 class TaskBoard extends Component {
   state = {
@@ -58,6 +59,21 @@ class TaskBoard extends Component {
     return xhtml;
   };
 
+  handleFilter = event => {
+    const { value } = event.target;
+    const { taskActionCreators } = this.props;
+    const { filterTask } = taskActionCreators;
+    filterTask(value);
+  }
+
+  renderSearchBox = () => {
+    let xhtml = null;
+    xhtml = (
+      <SearchBox handleChange={this.handleFilter} />
+    );
+    return xhtml;
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -70,6 +86,7 @@ class TaskBoard extends Component {
         >
           <AddIcon /> Add new job
         </Button>
+        {this.renderSearchBox()}
         {this.renderBoard()}
         {this.renderForm()}
       </div>
@@ -81,6 +98,7 @@ TaskBoard.propTypes = {
   classes: PropTypes.object,
   taskActionCreators: PropTypes.shape({
     fetchListTask: PropTypes.func,
+    filterTask: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };
