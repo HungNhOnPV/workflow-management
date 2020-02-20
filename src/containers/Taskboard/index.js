@@ -6,12 +6,13 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import * as modalActions from '../../actions/modal';
 import * as taskActions from '../../actions/task';
-import TaskItem from '../../components/TaskForm';
+import SearchBox from '../../components/SearchBox';
+import TaskItem from '../TaskForm';
 import TaskList from '../../components/TaskList';
 import { STATUSES } from '../../constants/index';
 import styles from './styles';
-import SearchBox from '../../components/SearchBox';
 
 class TaskBoard extends Component {
   state = {
@@ -41,9 +42,11 @@ class TaskBoard extends Component {
   };
 
   openForm = () => {
-    this.setState({
-      open: true,
-    });
+    const { modalActionCreators } = this.props;
+    const { showModal, changeModalTitle, changeModalContent } = modalActionCreators;
+    showModal();
+    changeModalTitle('Add new job');
+    changeModalContent(<TaskItem />);
   };
 
   handleClose = () => {
@@ -52,27 +55,18 @@ class TaskBoard extends Component {
     });
   };
 
-  renderForm = () => {
-    const { open } = this.state;
-    let xhtml = null;
-    xhtml = <TaskItem open={open} handleClose={this.handleClose} />;
-    return xhtml;
-  };
-
   handleFilter = event => {
     const { value } = event.target;
     const { taskActionCreators } = this.props;
     const { filterTask } = taskActionCreators;
     filterTask(value);
-  }
+  };
 
   renderSearchBox = () => {
     let xhtml = null;
-    xhtml = (
-      <SearchBox handleChange={this.handleFilter} />
-    );
+    xhtml = <SearchBox handleChange={this.handleFilter} />;
     return xhtml;
-  }
+  };
 
   render() {
     const { classes } = this.props;
@@ -88,7 +82,6 @@ class TaskBoard extends Component {
         </Button>
         {this.renderSearchBox()}
         {this.renderBoard()}
-        {this.renderForm()}
       </div>
     );
   }
@@ -100,18 +93,25 @@ TaskBoard.propTypes = {
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
   }),
+  modalActionCreators: PropTypes.shape({
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    changeModalContent: PropTypes.func,
+    changeModalTitle: PropTypes.func,
+  }),
   listTask: PropTypes.array,
 };
 
 const mapStateToProps = state => {
   return {
-    listTask: state.task.listTask
-  }
+    listTask: state.task.listTask,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     taskActionCreators: bindActionCreators(taskActions, dispatch),
+    modalActionCreators: bindActionCreators(modalActions, dispatch),
   };
 };
 
