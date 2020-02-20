@@ -1,48 +1,64 @@
-import { Box, TextField, withStyles } from '@material-ui/core';
+import { Box, withStyles } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import styles from './styles';
-import * as modalActions from '../../actions/modal';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { Field, reduxForm } from 'redux-form';
+import * as modalActions from '../../actions/modal';
+import renderTextField from '../../components/FormHelper/TextField';
+import styles from './styles';
+import validate from './validate';
 
 class TaskForm extends Component {
+  handleSubmitForm = data => {
+    console.log(data);
+  };
+
   render() {
-    const { classes, modalActionCreators } = this.props;
+    const {
+      classes,
+      modalActionCreators,
+      handleSubmit,
+      invalid,
+      submitting,
+    } = this.props;
     const { hideModal } = modalActionCreators;
     return (
-      <form>
+      <form onSubmit={handleSubmit(this.handleSubmitForm)}>
         <Grid container>
-          <Grid item md={12}>
-            <TextField
-              id="standard-name"
-              label="Title"
-              className={classes.textField}
-              margin="normal"
-            />
-          </Grid>
-          <Grid item md={12}>
-            <TextField
-              id="standard-name"
-              label="Describe"
-              className={classes.textField}
-              margin="normal"
-            />
-          </Grid>
+          <Field
+            id="title"
+            name="title"
+            component={renderTextField}
+            label="Title"
+            className={classes.textField}
+            margin="normal"
+          />
+          <Field
+            id="description"
+            name="description"
+            component={renderTextField}
+            label="Description"
+            multiline
+            rowsMax={4}
+            className={classes.textField}
+            margin="normal"
+          />
           <Grid item md={12}>
             <Box display="flex" flexDirection="row-reverse" mt={2}>
               <Box ml={1}>
-                <Button
-                  variant="contained"
-                  color="default"
-                  onClick={hideModal}
-                >
+                <Button variant="contained" color="default" onClick={hideModal}>
                   Cancel
                 </Button>
               </Box>
-              <Button variant="contained" color="primary">
+              <Button
+                disabled={invalid || submitting}
+                variant="contained"
+                color="primary"
+                type="submit"
+              >
                 Save
               </Button>
             </Box>
@@ -58,6 +74,9 @@ TaskForm.propTypes = {
   modalActionCreators: PropTypes.shape({
     hideModel: PropTypes.func,
   }),
+  handleSubmit: PropTypes.func,
+  invalid: PropTypes.bool,
+  submitting: PropTypes.bool,
 };
 
 const mapStateToProps = null;
@@ -68,4 +87,15 @@ const mapDispatchToProps = dispatch => ({
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withStyles(styles), withConnect)(TaskForm);
+const FORM_NAME = 'TASK_MANAGEMENT';
+
+const withReduxForm = reduxForm({
+  form: FORM_NAME,
+  validate,
+});
+
+export default compose(
+  withStyles(styles),
+  withConnect,
+  withReduxForm,
+)(TaskForm);
