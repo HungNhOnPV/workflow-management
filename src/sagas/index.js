@@ -3,7 +3,6 @@ import {
   delay,
   fork,
   put,
-  select,
   take,
   takeEvery,
   takeLatest,
@@ -14,7 +13,7 @@ import {
   addTaskSuccess,
   fetchListTaskFailed,
   fetchListTaskSuccess,
-  filterTaskSuccess,
+  fetchListTask,
 } from '../actions/task';
 import { hideLoading, showLoading } from '../actions/ui';
 import { addTask, getList } from '../apis/task';
@@ -34,9 +33,10 @@ import * as taskTypes from '../constants/task';
 
 function* watchFetchListTaskAction() {
   while (true) {
-    yield take(taskTypes.FETCH_TASK);
+    const action = yield take(taskTypes.FETCH_TASK);
     yield put(showLoading());
-    const resp = yield call(getList);
+    const { params } = action.payload;
+    const resp = yield call(getList, params);
     const { status, data } = resp;
     if (status === STATUS_CODE.SUCCESS) {
       yield put(fetchListTaskSuccess(data));
@@ -51,14 +51,11 @@ function* watchFetchListTaskAction() {
 function* filterTaskSaga({ payload }) {
   yield delay(500);
   const { keyword } = payload;
-  const list = yield select(state => state.task.listTask);
-  const filteredTask = list.filter(task =>
-    task.title
-      .trim()
-      .toLowerCase()
-      .includes(keyword.trim().toLowerCase()),
+  yield put(
+    fetchListTask({
+      q: keyword,
+    }),
   );
-  yield put(filterTaskSuccess(filteredTask));
 }
 
 function* addTaskSaga({ payload }) {
