@@ -15,15 +15,25 @@ import { STATUSES } from '../../constants/index';
 import styles from './styles';
 
 class TaskBoard extends Component {
-  state = {
-    open: false,
-  };
-
   componentDidMount() {
     const { taskActionCreators } = this.props;
     const { fetchListTask } = taskActionCreators;
     fetchListTask();
   }
+
+  handleEditTask = task => {
+    const { taskActionCreators, modalActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    const {
+      showModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionCreators;
+    setTaskEditing(task);
+    showModal();
+    changeModalTitle('Update job');
+    changeModalContent(<TaskItem />);
+  };
 
   renderBoard = () => {
     const { listTask } = this.props;
@@ -34,7 +44,14 @@ class TaskBoard extends Component {
           const taskFiltered = listTask.filter(
             task => task.status === status.value,
           );
-          return <TaskList tasks={taskFiltered} status={status} key={index} />;
+          return (
+            <TaskList
+              tasks={taskFiltered}
+              status={status}
+              key={index}
+              onClickEdit={this.handleEditTask}
+            />
+          );
         })}
       </Grid>
     );
@@ -42,17 +59,17 @@ class TaskBoard extends Component {
   };
 
   openForm = () => {
-    const { modalActionCreators } = this.props;
-    const { showModal, changeModalTitle, changeModalContent } = modalActionCreators;
+    const { modalActionCreators, taskActionCreators } = this.props;
+    const { setTaskEditing } = taskActionCreators;
+    const {
+      showModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionCreators;
+    setTaskEditing(null);
     showModal();
     changeModalTitle('Add new job');
     changeModalContent(<TaskItem />);
-  };
-
-  handleClose = () => {
-    this.setState({
-      open: false,
-    });
   };
 
   handleFilter = event => {
@@ -92,6 +109,7 @@ TaskBoard.propTypes = {
   taskActionCreators: PropTypes.shape({
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
+    setTaskEditing: PropTypes.func,
   }),
   modalActionCreators: PropTypes.shape({
     showModal: PropTypes.func,

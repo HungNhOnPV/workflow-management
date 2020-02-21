@@ -8,12 +8,13 @@ import CardContent from '@material-ui/core/CardContent';
 import Fab from '@material-ui/core/Fab';
 import Grid from '@material-ui/core/Grid';
 import Icon from '@material-ui/core/Icon';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import styles from './styles';
 
 class TaskItem extends Component {
   render() {
-    const { classes, status, task } = this.props;
+    const { classes, status, task, onClickEdit } = this.props;
     const { id, title, description } = task;
     return (
       <Card key={id} className={classes.cart}>
@@ -34,6 +35,7 @@ class TaskItem extends Component {
             aria-label="Edit"
             className={classes.fab}
             size="small"
+            onClick={onClickEdit}
           >
             <Icon fontSize="small">edit_icon</Icon>
           </Fab>
@@ -50,5 +52,12 @@ class TaskItem extends Component {
     );
   }
 }
+
+TaskItem.propTypes = {
+  classes: PropTypes.object,
+  status: PropTypes.object,
+  task: PropTypes.object,
+  onClickEdit: PropTypes.func,
+};
 
 export default withStyles(styles)(TaskItem);

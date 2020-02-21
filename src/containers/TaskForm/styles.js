@@ -33,6 +33,10 @@ const styles = theme => ({
   content: {
     padding: theme.spacing(2),
   },
+  select: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
 });
 
 export default styles;
