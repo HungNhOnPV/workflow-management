@@ -9,44 +9,14 @@
     {
       "title": "Play game",
       "description": "With my friend",
-      "status": 0,
+      "status": 1,
       "id": 2
     },
     {
       "title": "Learning java",
-      "description": "",
-      "status": 0,
-      "id": 3
-    },
-    {
-      "title": "Topic4",
-      "description": "hi",
-      "status": 1,
-      "id": 4
-    },
-    {
-      "title": "Topic4",
-      "description": "hi",
-      "status": 1,
-      "id": 5
-    },
-    {
-      "title": "Topic4",
-      "description": null,
-      "status": 0,
-      "id": 6
-    },
-    {
-      "title": "Topic6",
-      "description": "no comment",
+      "description": "online ",
       "status": 2,
-      "id": 7
-    },
-    {
-      "title": "Topic5",
-      "description": null,
-      "status": 1,
-      "id": 8
+      "id": 3
     }
   ]
 }

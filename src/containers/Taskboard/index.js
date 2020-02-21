@@ -13,6 +13,7 @@ import TaskItem from '../TaskForm';
 import TaskList from '../../components/TaskList';
 import { STATUSES } from '../../constants/index';
 import styles from './styles';
+import { Box } from '@material-ui/core';
 
 class TaskBoard extends Component {
   componentDidMount() {
@@ -35,6 +36,49 @@ class TaskBoard extends Component {
     changeModalContent(<TaskItem />);
   };
 
+  showModalDeleteTask = task => {
+    const { modalActionCreators, classes } = this.props;
+    const { hideModal } = modalActionCreators;
+    const {
+      showModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionCreators;
+    showModal();
+    changeModalTitle('Delete jod');
+    changeModalContent(
+      <div className={classes.modalDelete}>
+        <div className={classes.modalConfirmText}>
+          You definitely want to delete{' '}
+          <span className={classes.modalConfirmTextBold}>{task.title}</span>?
+        </div>
+        <Box display="flex" flexDirection="row-reverse" mt={2}>
+          <Box ml={1}>
+            <Button variant="contained" color="default" onClick={hideModal}>
+              Cancel
+            </Button>
+          </Box>
+          <Box>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => this.handleDeleteTask(task)}
+            >
+              Delete
+            </Button>
+          </Box>
+        </Box>
+      </div>,
+    );
+  };
+
+  handleDeleteTask = task => {
+    const { id } = task;
+    const { taskActionCreators } = this.props;
+    const { deleteTask } = taskActionCreators;
+    deleteTask(id);
+  };
+
   renderBoard = () => {
     const { listTask } = this.props;
     let xhtml = null;
@@ -50,6 +94,7 @@ class TaskBoard extends Component {
               status={status}
               key={index}
               onClickEdit={this.handleEditTask}
+              onClickDelete={this.showModalDeleteTask}
             />
           );
         })}
@@ -110,6 +155,7 @@ TaskBoard.propTypes = {
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
     setTaskEditing: PropTypes.func,
+    deleteTask: PropTypes.func,
   }),
   modalActionCreators: PropTypes.shape({
     showModal: PropTypes.func,

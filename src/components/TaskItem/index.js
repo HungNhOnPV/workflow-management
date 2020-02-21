@@ -14,7 +14,7 @@ import styles from './styles';
 
 class TaskItem extends Component {
   render() {
-    const { classes, status, task, onClickEdit } = this.props;
+    const { classes, status, task, onClickEdit, onClickDelete } = this.props;
     const { id, title, description } = task;
     return (
       <Card key={id} className={classes.cart}>
@@ -44,6 +44,7 @@ class TaskItem extends Component {
             aria-label="Delete"
             className={classes.fab}
             size="small"
+            onClick={onClickDelete}
           >
             <Icon fontSize="small">delete_icon</Icon>
           </Fab>
@@ -58,6 +59,7 @@ TaskItem.propTypes = {
   status: PropTypes.object,
   task: PropTypes.object,
   onClickEdit: PropTypes.func,
+  onClickDelete: PropTypes.func,
 };
 
 export default withStyles(styles)(TaskItem);
