@@ -8,13 +8,13 @@ import AdminLayoutRouter from '../../commons/Layout/AdminLayoutRouter';
 import theme from '../../commons/theme';
 import CommonModal from '../../components/CommonModal';
 import GlobalLoading from '../../components/GlobalLoading';
-import { ADMIN_ROUTER } from '../../constants';
+import { ADMIN_ROUTES } from '../../constants';
 import styles from './styles';
 
 class App extends Component {
   renderAdminRouters = () => {
     let xhtml = null;
-    xhtml = ADMIN_ROUTER.map(router => {
+    xhtml = ADMIN_ROUTES.map(router => {
       return <AdminLayoutRouter key={router.path} router={router} />;
     });
     return xhtml;
