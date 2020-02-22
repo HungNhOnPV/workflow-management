@@ -1,22 +1,36 @@
+import CssBaseLine from '@material-ui/core/CssBaseline';
 import { ThemeProvider, withStyles } from '@material-ui/styles';
 import React, { Component } from 'react';
+import { BrowserRouter as Routers } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminLayoutRouter from '../../commons/Layout/AdminLayoutRouter';
 import theme from '../../commons/theme';
-import GlobalLoading from '../../components/GlobalLoading';
 import CommonModal from '../../components/CommonModal';
-import TaskBoard from '../Taskboard/index';
+import GlobalLoading from '../../components/GlobalLoading';
+import { ADMIN_ROUTER } from '../../constants';
 import styles from './styles';
 
 class App extends Component {
+  renderAdminRouters = () => {
+    let xhtml = null;
+    xhtml = ADMIN_ROUTER.map(router => {
+      return <AdminLayoutRouter key={router.path} router={router} />;
+    });
+    return xhtml;
+  };
+
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <ToastContainer />
-        <GlobalLoading />
-        <CommonModal />
-        <TaskBoard />
-      </ThemeProvider>
+      <Routers>
+        <ThemeProvider theme={theme}>
+          <CssBaseLine />
+          <ToastContainer />
+          <GlobalLoading />
+          <CommonModal />
+          {this.renderAdminRouters()}
+        </ThemeProvider>
+      </Routers>
     );
   }
 }

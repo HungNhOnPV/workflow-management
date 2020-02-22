@@ -1,3 +1,6 @@
+import AdminHomePage from '../containers/AdminHomePage';
+import Taskboard from '../containers/Taskboard';
+
 export const API_ENDPOINT = 'http://localhost:3000';
 
 export const STATUSES = [
@@ -20,3 +23,18 @@ export const STATUS_CODE = {
   CREATED: 201,
   UPDATED: 202,
 };
+
+export const ADMIN_ROUTER = [
+  {
+    path: '/',
+    name: 'Page admin',
+    exact: true,
+    component: AdminHomePage,
+  },
+  {
+    path: '/task-board',
+    name: 'Workflow management',
+    exact: false,
+    component: Taskboard,
+  }
+]
