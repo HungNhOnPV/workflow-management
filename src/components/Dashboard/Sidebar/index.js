@@ -8,14 +8,11 @@ import styles from './styles';
 import { NavLink } from 'react-router-dom';
 
 class Sidebar extends Component {
-  state = {
-    open: true,
-  };
-
   toggleDrawer = value => {
-    this.setState({
-      open: value,
-    });
+    const { onToggleSidebar } = this.props;
+    if(onToggleSidebar) {
+      onToggleSidebar();
+    }
   };
 
   renderList = () => {
@@ -46,11 +43,10 @@ class Sidebar extends Component {
   };
 
   render() {
-    const { open } = this.state;
-    const { classes } = this.props;
+    const { classes, showSidebar } = this.props;
     return (
       <Drawer
-        open={open}
+        open={showSidebar}
         onClose={() => this.toggleDrawer(false)}
         classes={{
           paper: classes.drawerPaper,
@@ -65,6 +61,8 @@ class Sidebar extends Component {
 
 Sidebar.propTypes = {
   classes: PropTypes.object,
+  showSidebar: PropTypes.bool,
+  onToggleSidebar: PropTypes.func,
 };
 
 export default withStyles(styles)(Sidebar);
