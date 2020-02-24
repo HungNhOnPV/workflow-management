@@ -1,3 +1,5 @@
+import LoginPage from '../components/LoginPage';
+import SignupPage from '../components/SignupPage';
 import AdminHomePage from '../containers/AdminHomePage';
 import Taskboard from '../containers/Taskboard';
 
@@ -26,15 +28,30 @@ export const STATUS_CODE = {
 
 export const ADMIN_ROUTES = [
   {
-    path: '/',
+    path: '/admin',
     name: 'Page admin',
     exact: true,
     component: AdminHomePage,
   },
   {
-    path: '/task-board',
+    path: '/admin/task-board',
     name: 'Workflow management',
-    exact: false,
+    exact: true,
     component: Taskboard,
-  }
-]
+  },
+];
+
+export const ROUTES = [
+  {
+    path: '/login',
+    name: 'Login',
+    exact: true,
+    component: LoginPage,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    exact: true,
+    component: SignupPage,
+  },
+];
